@@ -47,11 +47,22 @@ const newManager = () => {
               return true;
           }
       },
+        {
+        type: "input",
+        name: "officeNumber",
+        message: "What is the manager's office number?",
+            validate: async (input) => {
+            if(input.trim('') === "") {
+                return "Please input an Email."
+            }
+                return true;
+            }
+        },
     ])
     .then((managerData) => {
       // Use user feedback for... whatever!!
-      const { name, id, email} = managerData;
-      const manager = new Manager (name, id, email);
+      const { name, id, email, officeNumber} = managerData;
+      const manager = new Manager (name, id, email, officeNumber);
 
       teamArr.push(manager);
       console.log(manager);
@@ -90,7 +101,7 @@ const newEmployee = () => {
               return true;
           }
       },
-        {
+    {
             type: "input",
             name: "email",
             message: "What is the employee's Email?",
@@ -100,7 +111,7 @@ const newEmployee = () => {
               }
               return true;
           }
-      },
+    },
         {
             type: "input",
             name: "github",
@@ -118,7 +129,7 @@ const newEmployee = () => {
         {
             type: "input",
             name: "institution",
-            message: "What is the employee's GitHub username?",
+            message: "What is the employee's Institution?",
             // if the option of intern is selected, will ask for instituion of intern.
             when: (input) => input.role === "Intern",
                 validate: nameInput => {
@@ -131,7 +142,7 @@ const newEmployee = () => {
         },
         {
             type: 'confirm',
-            name: 'confirmAddEmployee',
+            name: 'newEmployee',
             message: 'Would you like to add more team members?',
             default: false
         }
@@ -151,7 +162,7 @@ const newEmployee = () => {
 
         teamArr.push(employee);
 
-        if (confirmAddEmployee) {
+        if (newEmployee) {
         return newEmployee(teamArr); 
         } else {
             return teamArr;
@@ -179,7 +190,7 @@ newManager()
     })
     .then(pageHTML => {
         return writeFile(pageHTML);
-      })
-      .catch(err => {
-     console.log(err);
-      });
+    })
+    .catch(err => {
+        console.log(err);
+    });

@@ -1,5 +1,21 @@
 const fs = require('fs');
 
+const managerCard = function (manager) {
+    return `  
+        <div>
+            <div class="card-heading">
+                <h1 class="card-font-heading">${manager.name}</h1>
+                <h2 class="card-font-heading">Manager</h2>
+            </div>
+            <div class="card-body">
+                <h2 class="card-font-body">${manager.id}</h2>
+                <h2 class="card-font-body">${manager.email}</h2>
+                <h2 class="card-font-body">${manager.officeNumber}</h2>
+            </div>
+        </div>
+    `
+}
+
 const cardArr = [];
 const employeeCards = "Hello there"
 
@@ -24,7 +40,7 @@ const createHtml = files => {
             <!-- Staff section -->
             <main>
                 <section class="body-container">
-                    ${employeeCards}
+                    ${managerCard}
                 </section>
             </main>
         </body>
