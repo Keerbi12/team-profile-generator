@@ -128,7 +128,7 @@ const newEmployee = () => {
       },
         {
             type: "input",
-            name: "institution",
+            name: "institute",
             message: "What is the employee's Institution?",
             // if the option of intern is selected, will ask for instituion of intern.
             when: (input) => input.role === "Intern",
@@ -142,14 +142,14 @@ const newEmployee = () => {
         },
         {
             type: 'confirm',
-            name: 'newEmployee',
+            name: 'confirmNewEmployee',
             message: 'Would you like to add more team members?',
             default: false
         }
     ])
     .then((employeeData) => {
         // Use user feedback for... whatever!!
-        const { name, id, email, role, github, institute} = employeeData;
+        const { name, id, email, role, github, institute, confirmNewEmployee} = employeeData;
         let employee;
 
         if (role === "Engineer") {
@@ -162,7 +162,7 @@ const newEmployee = () => {
 
         teamArr.push(employee);
 
-        if (newEmployee) {
+        if (confirmNewEmployee) {
         return newEmployee(teamArr); 
         } else {
             return teamArr;
