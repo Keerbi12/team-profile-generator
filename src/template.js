@@ -1,4 +1,6 @@
 const fs = require('fs');
+
+const cardArr = [];
 const employeeCards = "Hello there"
 
 const createHtml = files => {
@@ -15,13 +17,13 @@ const createHtml = files => {
         </head>
         <body>
             <!-- Page title -->
-            <header>
-                <p>My Team</p>
-                <p>A list of people who work at the company</p>
+            <header class="header-container">
+                <p class="title">My Team</p>
+                <p class="sub-title">A list of people who work at the company</p>
             </header>
             <!-- Staff section -->
             <main>
-                <section>
+                <section class="body-container">
                     ${employeeCards}
                 </section>
             </main>
@@ -32,9 +34,5 @@ const createHtml = files => {
         err ? console.log(err) : console.log("New HTML created.")
     });
 };
-
-// createHtml = (data) => {
-
-// }
 
 module.exports = createHtml;

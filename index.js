@@ -4,6 +4,7 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const createHtml = require("./src/template");
+const Employee = require("./lib/Employee");
 
 // team array
 const teamArr = [];
@@ -46,17 +47,6 @@ const newManager = () => {
               return true;
           }
       },
-      {
-          type: "input",
-          name: "github",
-          message: "What is the manager's GitHub username?",
-          validate: async (input) => {
-              if(input.trim('') === "") {
-                  return "Please input a GitHub username."
-              }
-              return true;
-          }
-      },
     ])
     .then((managerData) => {
       // Use user feedback for... whatever!!
@@ -65,6 +55,107 @@ const newManager = () => {
 
       teamArr.push(manager);
       console.log(manager);
+    })
+};
+
+const newEmployee = () => {
+    return inquirer
+    .prompt([
+      /* Pass your questions in here */
+      {
+          type: "list",
+          name: "role",
+          message: "What is the employee's position",
+          choices: ['Engineer', 'Intern']
+      },
+        {
+            type: "input",
+            name: "name",
+            message: "What is the employee's name?",
+            validate: async (input) => {
+            if(input.trim('') === "") {
+                return "Please input a name."
+            }
+            return true;
+        }
+    },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the employee's Id?",
+            validate: async (input) => {
+              if(input.trim('') === "") {
+                  return "Please input an Id."
+              }
+              return true;
+          }
+      },
+        {
+            type: "input",
+            name: "email",
+            message: "What is the employee's Email?",
+            validate: async (input) => {
+              if(input.trim('') === "") {
+                  return "Please input an Email."
+              }
+              return true;
+          }
+      },
+        {
+            type: "input",
+            name: "github",
+            message: "What is the employee's GitHub username?",
+            // if the option of engineer is selected, will ask for the employee's github account.
+            when: (input) => input.role === "Engineer",
+            validate: nameInput => {
+                if (nameInput ) {
+                    return true;
+                } else {
+                    console.log ("Please enter the engineer's github username?")
+                }
+            }
+      },
+        {
+            type: "input",
+            name: "institution",
+            message: "What is the employee's GitHub username?",
+            // if the option of intern is selected, will ask for instituion of intern.
+            when: (input) => input.role === "Intern",
+                validate: nameInput => {
+                    if (nameInput ) {
+                        return true;
+                    } else {
+                        console.log ("Please enter the Intern's institution")
+                    }
+                }
+        },
+        {
+            type: 'confirm',
+            name: 'confirmAddEmployee',
+            message: 'Would you like to add more team members?',
+            default: false
+        }
+    ])
+    .then((employeeData) => {
+        // Use user feedback for... whatever!!
+        const { name, id, email, role, github, institute} = employeeData;
+        let employee;
+
+        if (role === "Engineer") {
+            employee = new Engineer (name, id, email, github);
+            console.log(employee);
+        } else if (role === "Intern") {
+            employee = new Intern (name, id, email, institute);
+            console.log(employee);
+        }
+
+        teamArr.push(employee);
+
+        if (confirmAddEmployee) {
+        return newEmployee(teamArr); 
+        } else {
+            return teamArr;
+        }
     })
 };
 
@@ -82,6 +173,7 @@ const writeFile = data => {
 }
 
 newManager()
+    .then(newEmployee)
     .then(teamArr => {
         return createHtml(teamArr);
     })
