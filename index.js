@@ -1,7 +1,9 @@
+const fs = require("fs");
 const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const createHtml = require("./src/template");
 
 // team array
 const teamArr = [];
@@ -66,11 +68,9 @@ const newManager = () => {
     })
 };
 
-newManager()
-
 // Function for creating HTML page via template.
 const writeFile = data => {
-    FileSystem.writeFile("./dist/index.html", data, err => {
+    fs.writeFile("./dist/index.html", data, err => {
         if (err) {
             console.log(err);
             return;
@@ -80,3 +80,14 @@ const writeFile = data => {
         }
     });
 }
+
+newManager()
+    .then(teamArr => {
+        return createHtml(teamArr);
+    })
+    .then(pageHTML => {
+        return writeFile(pageHTML);
+      })
+      .catch(err => {
+     console.log(err);
+      });

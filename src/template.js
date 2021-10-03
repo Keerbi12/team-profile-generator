@@ -1,4 +1,5 @@
 const fs = require('fs');
+const employeeCards = "Hello there"
 
 const createHtml = files => {
     let overallFile = 
@@ -21,16 +22,19 @@ const createHtml = files => {
             <!-- Staff section -->
             <main>
                 <section>
-                    ${files}
+                    ${employeeCards}
                 </section>
             </main>
         </body>
         </html> 
     `
+    fs.writeFile("dist/index.html", overallFile, (err) => {
+        err ? console.log(err) : console.log("New HTML created.")
+    });
 };
 
-fs.writeFile("dist/index.html", overallFile, (err) => {
-    err ? console.log(err) : console.log('New HTML created.')
-});
+// createHtml = (data) => {
+
+// }
 
 module.exports = createHtml;
